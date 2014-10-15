@@ -1,0 +1,110 @@
+@import "../palette/palette";
+
+$textfieldBackgroundColor: transparent;
+$textfieldLabelColor: rgba(0, 0, 0, 0.26);
+$textfieldBottomBorderColor: rgba(0, 0, 0, 0.12);
+$textfieldHighlightColor: nth($primaryPalette, 6);
+$textfieldErrorColor: nth($paletteRed, 7);
+$textfieldDisabledColor: $textfieldBottomBorderColor;
+
+$textfieldFontSize: 16px;
+$textfieldWidth: 100%;
+
+$inputPadding: 4px;
+$floatingLabelFontSize: 12px;
+
+.TextField {
+  border       : none;
+  border-bottom: 1px solid $textfieldBottomBorderColor;
+  display      : block;
+  font-size    : $textfieldFontSize;
+  margin       : 0;
+  padding      : $inputPadding 0;
+  width        : $textfieldWidth;
+  background   : $textfieldBackgroundColor;
+}
+
+.TextField ~ label {
+  bottom        : 0;
+  color         : $textfieldLabelColor;
+  font-size     : $textfieldFontSize;
+  left          : 0;
+  pointer-events: none;
+  position      : absolute;
+  top           : $inputPadding;
+  width         : 100%;
+}
+
+/** The after label is the colored underline for the TextField **/
+.TextField ~ label:after {
+  background-color  : $textfieldHighlightColor;
+  bottom            : 0;
+  content           : '';
+  height            : 2px;
+  left              : 45%;
+  position          : absolute;
+  transition        : 0.2s ease all;
+  visibility        : hidden;
+  width             : 10px;
+}
+
+/** TextField Focus Styles **/
+.TextField:focus {
+  outline: none;
+}
+
+.TextField:focus ~ label:after {
+  left      : 0;
+  visibility: visible;
+  width     : 100%;
+}
+
+/** TextField Invalid Styles **/
+.TextField:invalid {
+  border-color: $textfieldErrorColor;
+  box-shadow  : none;
+}
+
+.TextField:invalid ~label:after {
+  background-color: $textfieldErrorColor;
+}
+
+/** TextField Error **/
+.TextField ~ .error {
+  color     : $textfieldErrorColor;
+  float     : left;
+  font-size : 12px;
+  margin-top: 3px;
+  visibility: hidden;
+}
+
+.TextField:invalid ~ .error {
+  visibility: visible;
+}
+
+.TextField.dirty ~ label {
+  visibility: hidden;
+}
+
+.TextField-floatingLabel ~label {
+  transition : 0.2s ease all;
+}
+
+.TextField-floatingLabel:focus ~ label,
+.TextField-floatingLabel.dirty ~ label {
+  color     : $textfieldHighlightColor;
+  font-size : $floatingLabelFontSize;
+  top       : -($floatingLabelFontSize+$inputPadding);
+  visibility: visible;
+}
+
+.TextField-floatingLabel:invalid ~ label {
+  color    : $textfieldErrorColor;
+  font-size: 12px;
+}
+
+/** Disabled Styling **/
+.TextField[disabled] {
+  background-color: transparent;
+  border-bottom   : 1px dashed $textfieldDisabledColor;
+}
